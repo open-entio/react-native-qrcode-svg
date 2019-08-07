@@ -71,7 +71,7 @@ export default class QRCode extends PureComponent {
     const { value, size, ecl, onError } = props
     try {
       this._matrix = genMatrix(value, ecl)
-      this._cellSize = size / this._matrix.length
+      this._cellSize = size / (this._matrix.length + 4);
       this._path = this.transformMatrixIntoPath()
     } catch (error) {
       if (onError && typeof onError === 'function') {
@@ -89,19 +89,21 @@ export default class QRCode extends PureComponent {
     // adjust origin
     let d = ''
     matrix.forEach((row, i) => {
+      const y = i + 2;
       let needDraw = false
       row.forEach((column, j) => {
+        const x = j + 2;
         if (column) {
           if (!needDraw) {
-            d += `M${cellSize * j} ${cellSize / 2 + cellSize * i} `
+            d += `M${cellSize * x} ${cellSize / 2 + cellSize * y} `
             needDraw = true
           }
-          if (needDraw && j === matrix.length - 1) {
-            d += `L${cellSize * (j + 1)} ${cellSize / 2 + cellSize * i} `
+          if (needDraw && x === matrix.length - 1) {
+            d += `L${cellSize * (x + 1)} ${cellSize / 2 + cellSize * y} `
           }
         } else {
           if (needDraw) {
-            d += `L${cellSize * j} ${cellSize / 2 + cellSize * i} `
+            d += `L${cellSize * x} ${cellSize / 2 + cellSize * y} `
             needDraw = false
           }
         }
