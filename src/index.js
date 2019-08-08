@@ -98,7 +98,7 @@ export default class QRCode extends PureComponent {
             d += `M${cellSize * x} ${cellSize / 2 + cellSize * y} `
             needDraw = true
           }
-          if (needDraw && x === matrix.length - 1) {
+          if (needDraw && j === matrix.length - 1) {
             d += `L${cellSize * (x + 1)} ${cellSize / 2 + cellSize * y} `
           }
         } else {
